@@ -1,5 +1,7 @@
 #pragma once
-#include "Term.hpp"
+#include <string>
+#include <vector>
+class Term;
 
 class Expression {
 public:
@@ -18,6 +20,7 @@ public:
 public:
     Expression simplify() const;
     std::string toString() const;
+    std::vector<Term> getTerms() const;
 private:
     Expression simplifyTerms() const;
 };

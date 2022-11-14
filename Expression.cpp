@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "Term.hpp"
+
 Expression::~Expression() {}
 
 Expression Expression::operator+(const Term& term) const {
@@ -56,6 +58,9 @@ Expression Expression::simplifyTerms() const {
         }
     }
     return terms;
+}
+std::vector<Term> Expression::getTerms() const {
+    return this->m_terms;
 }
 std::string Expression::toString() const {
     std::string output;

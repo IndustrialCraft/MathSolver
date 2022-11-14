@@ -1,17 +1,19 @@
 #pragma once
+#include <variant>
 #include <vector>
 
+#include "Expression.hpp"
 #include "Fraction.hpp"
-#include "Part.hpp"
+#include "Variable.hpp"
 
 class Term {
 public:
     class InversablePart {
     public:
-        Part m_part;
+        std::variant<Expression, Variable> m_part;
         bool m_inverse;
     public:
-        InversablePart(Part part, bool inverse) : m_part(part), m_inverse(inverse) {}
+        InversablePart(std::variant<Expression, Variable> part, bool inverse) : m_part(part), m_inverse(inverse) {}
     };
 private:
     Fraction m_amount;
@@ -21,8 +23,10 @@ public:
     Term(Fraction amount);
     ~Term();
 public:
-    Term operator*(const Part& part) const;
-    Term operator/(const Part& part) const;
+    Term operator*(const Variable& part) const;
+    Term operator/(const Variable& part) const;
+    Term operator*(const Expression& part) const;
+    Term operator/(const Expression& part) const;
     Term operator*(const Term& other) const;
     Term operator/(const Term& other) const;
     Term operator+(const Fraction& amount) const;
@@ -30,6 +34,7 @@ public:
     Term operator*(const Fraction& amount) const;
     Term operator/(const Fraction& amount) const;
 public:
+    Term addInversiblePart(const InversablePart& part) const;
     Fraction getAmount();
     bool isSameExceptAmount(const Term& other) const;
     std::string toString() const;

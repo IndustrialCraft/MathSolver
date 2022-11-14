@@ -1,14 +1,14 @@
 #pragma once
 #include <string>
 
-class Part {
+class Variable {
 private:
     char m_symbol;
 public:
-    Part(char symbol);
-    ~Part();
+    Variable(char symbol);
+    ~Variable();
 public:
-    bool operator==(const Part& other) const;
+    bool operator==(const Variable& other) const;
 public:
     std::string toString() const;
 };
