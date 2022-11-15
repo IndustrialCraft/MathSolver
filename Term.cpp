@@ -47,6 +47,17 @@ Term Term::operator*(const Fraction& amount) const {
 Term Term::operator/(const Fraction& amount) const {
     return Term(m_amount / amount, m_parts);
 }
+int Term::countOccurences(const Variable& var) const {
+    int amt = 0;
+    for (const auto& part : this->m_parts) {
+        if (std::holds_alternative<Variable>(part.m_part)) {
+            if (std::get<Variable>(part.m_part) == var) {
+                amt += part.m_inverse ? -1 : 1;
+            }
+        }
+    }
+    return amt;
+}
 Fraction Term::getAmount() {
     return this->m_amount;
 }
@@ -63,6 +74,9 @@ std::vector<Term> Term::simplify() const {
                 terms.at(i) = terms.at(i).addInversiblePart(part);
             }
         } else if (std::holds_alternative<Expression>(part.m_part)) {
+            if (part.m_inverse) {
+                throw std::logic_error("dividing not implemented");
+            }
             Expression expr = std::get<Expression>(part.m_part).simplify();
             std::vector<Term> newTerms;
             for (const Term& term1 : terms) {
@@ -97,7 +111,7 @@ Term Term::crushOppositeSame() const {
         for (int j = 0; j < parts.size(); j++) {
             InversablePart part2 = parts.at(j);
             if (std::get<Variable>(part1.m_part) == std::get<Variable>(part2.m_part) && part1.m_inverse != part2.m_inverse) {
-                parts.erase(parts.begin() + j);  // sus
+                parts.erase(parts.begin() + j);
                 parts.erase(parts.begin() + i);
                 i--;
                 break;

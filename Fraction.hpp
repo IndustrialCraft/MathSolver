@@ -21,6 +21,7 @@ public:
     Fraction operator/(const Fraction& other) const;
     bool operator==(const Fraction& other) const;
 public:
+    bool isNegative() const;
     bool isZero() const;
     std::string toString() const;
 };

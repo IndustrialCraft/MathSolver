@@ -31,7 +31,9 @@ Fraction Fraction::operator/(const Fraction& other) const {
 bool Fraction::operator==(const Fraction& other) const {
     return this->m_numerator == other.m_numerator && this->m_denominator == other.m_denominator;
 }
-
+bool Fraction::isNegative() const {
+    return this->m_numerator < 0;
+}
 bool Fraction::isZero() const {
     return this->m_numerator == 0;
 }
