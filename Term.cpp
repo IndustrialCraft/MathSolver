@@ -47,6 +47,9 @@ Term Term::operator*(const Fraction& amount) const {
 Term Term::operator/(const Fraction& amount) const {
     return Term(m_amount / amount, m_parts);
 }
+std::vector<Term::InversablePart> Term::getParts() const {
+    return this->m_parts;
+}
 int Term::countOccurences(const Variable& var) const {
     int amt = 0;
     for (const auto& part : this->m_parts) {
@@ -100,7 +103,10 @@ Term Term::addInversiblePart(const InversablePart& part) const {
 std::string Term::toString() const {
     std::string output = m_amount.toString();
     for (const InversablePart& part : m_parts) {
-        output += (part.m_inverse ? "/" : "*") + std::get<Variable>(part.m_part).toString();
+        if (std::holds_alternative<Variable>(part.m_part))
+            output += (part.m_inverse ? "/" : "*") + std::get<Variable>(part.m_part).toString();
+        else
+            output += std::string((part.m_inverse ? "/" : "*")) + "(" + std::get<Expression>(part.m_part).toString() + ")";
     }
     return output;
 }

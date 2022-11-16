@@ -34,6 +34,7 @@ public:
     Term operator*(const Fraction& amount) const;
     Term operator/(const Fraction& amount) const;
 public:
+    std::vector<InversablePart> getParts() const;
     int countOccurences(const Variable& var) const;
     Term addInversiblePart(const InversablePart& part) const;
     Fraction getAmount();

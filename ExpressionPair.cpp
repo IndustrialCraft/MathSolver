@@ -34,11 +34,33 @@ ExpressionPair ExpressionPair::solveFor(Variable var) {
         if (!skip)
             break;
     }
-    Fraction onLeft = first.getTerms().at(0).getAmount();
-    if (onLeft.isNegative())
-        mathOperator = getOtherOperator();
-    first = first / Term(onLeft);
-    second = second / Term(onLeft);
+    while (true) {
+        for (const Term& term : first.getTerms()) {
+            for (const auto& part : term.getParts()) {
+                Variable v = std::get<Variable>(part.m_part);
+                if (!(v == var)) {
+                    if (part.m_inverse) {
+                        first = first * (Term(Fraction(1, 1)) * v);
+                        second = second * (Term(Fraction(1, 1)) * v);
+                    } else {
+                        first = first / (Term(Fraction(1, 1)) * v);
+                        second = second / (Term(Fraction(1, 1)) * v);
+                    }
+                    goto next;
+                }
+            }
+        }
+        break;
+    next:
+        continue;
+    }
+    if (first.getTerms().size() > 0) {
+        Fraction onLeft = first.getTerms().at(0).getAmount();
+        if (onLeft.isNegative())
+            mathOperator = getOtherOperator();
+        first = first / Term(onLeft);
+        second = second / Term(onLeft);
+    }
     return ExpressionPair(first, second, mathOperator);
 }
 

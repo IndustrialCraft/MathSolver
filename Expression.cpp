@@ -11,6 +11,13 @@ Expression Expression::operator+(const Term& term) const {
     terms.push_back(term);
     return Expression(terms);
 }
+Expression Expression::operator*(const Term& term) const {
+    std::vector<Term> terms;
+    for (const auto& term_it : m_terms) {
+        terms.push_back(term_it * term);
+    }
+    return terms;
+}
 Expression Expression::operator/(const Term& term) const {
     std::vector<Term> terms;
     for (const auto& term_it : m_terms) {

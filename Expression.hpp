@@ -13,6 +13,7 @@ public:
     ~Expression();
 public:
     Expression operator+(const Term& term) const;
+    Expression operator*(const Term& term) const;
     Expression operator/(const Term& term) const;
     Expression operator+(const Expression& other) const;
     Expression operator-(const Expression& other) const;
