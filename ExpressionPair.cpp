@@ -6,7 +6,7 @@ ExpressionPair::ExpressionPair(Expression first, Expression second, EOperator ma
 
 ExpressionPair::~ExpressionPair() {}
 
-ExpressionPair ExpressionPair::solveFor(Variable var) {
+ExpressionPair ExpressionPair::solveFor(Variable var) const {
     Expression first = this->m_first.simplify();
     Expression second = this->m_second.simplify();
     EOperator mathOperator = this->m_operator;
@@ -64,7 +64,7 @@ ExpressionPair ExpressionPair::solveFor(Variable var) {
     return ExpressionPair(first, second, mathOperator);
 }
 
-ExpressionPair::EOperator ExpressionPair::getOtherOperator() {
+ExpressionPair::EOperator ExpressionPair::getOtherOperator() const {
     switch (m_operator) {
         case EOperator::EQUALS:
             return EOperator::EQUALS;
@@ -77,14 +77,28 @@ ExpressionPair::EOperator ExpressionPair::getOtherOperator() {
         case EOperator::GREATER_EQ:
             return EOperator::LESS_EQ;
     }
+    throw std::logic_error("this shouldnt happen");
 }
-
-Expression ExpressionPair::getFirst() {
+bool ExpressionPair::isCompletlySolved(Variable var) const {
+    if (m_first.getTerms().size() != 1)
+        return false;
+    Term term = m_first.getTerms().at(0);
+    if (!(term.getAmount() == Fraction(1, 1)))
+        return false;
+    if (term.getParts().size() != 1)
+        return false;
+    if (term.getParts().at(0).m_inverse)
+        return false;
+    if (!std::holds_alternative<Variable>(term.getParts().at(0).m_part))
+        return false;
+    return std::get<Variable>(term.getParts().at(0).m_part) == var;
+}
+Expression ExpressionPair::getFirst() const {
     return this->m_first;
 }
-Expression ExpressionPair::getSecond() {
+Expression ExpressionPair::getSecond() const {
     return this->m_second;
 }
-ExpressionPair::EOperator ExpressionPair::getOperator() {
+ExpressionPair::EOperator ExpressionPair::getOperator() const {
     return this->m_operator;
 }

@@ -47,6 +47,31 @@ Term Term::operator*(const Fraction& amount) const {
 Term Term::operator/(const Fraction& amount) const {
     return Term(m_amount / amount, m_parts);
 }
+Term Term::replaceVariable(Variable variable, Expression expression) const {
+    std::vector<InversablePart> parts;
+    for (const auto& part : this->m_parts) {
+        if (std::holds_alternative<Variable>(part.m_part)) {
+            if (std::get<Variable>(part.m_part) == variable) {
+                parts.push_back(InversablePart(expression, part.m_inverse));
+            }
+        } else {
+            parts.push_back(InversablePart(std::get<Expression>(part.m_part).replaceVariable(variable, expression), part.m_inverse));
+        }
+    }
+    return Term(m_amount, parts);
+}
+std::set<Variable> Term::listVariables() const {
+    std::set<Variable> variables;
+    for (const auto& part : this->m_parts) {
+        if (std::holds_alternative<Variable>(part.m_part)) {
+            variables.insert(std::get<Variable>(part.m_part));
+        } else {
+            auto extracted = std::get<Expression>(part.m_part).listVariables();
+            variables.insert(extracted.begin(), extracted.end());
+        }
+    }
+    return variables;
+}
 std::vector<Term::InversablePart> Term::getParts() const {
     return this->m_parts;
 }

@@ -64,6 +64,21 @@ Expression Expression::simplify() const {
     }
     return Expression(terms);
 }
+std::set<Variable> Expression::listVariables() const {
+    std::set<Variable> variables;
+    for (const Term& term : m_terms) {
+        auto extracted = term.listVariables();
+        variables.insert(extracted.begin(), extracted.end());
+    }
+    return variables;
+}
+Expression Expression::replaceVariable(Variable variable, Expression expression) const {
+    std::vector<Term> terms;
+    for (const Term& term : m_terms) {
+        terms.push_back(term.replaceVariable(variable, expression));
+    }
+    return Expression(terms);
+}
 Expression Expression::simplifyTerms() const {
     std::vector<Term> terms;
     for (const Term& term : m_terms) {

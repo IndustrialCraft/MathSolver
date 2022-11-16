@@ -19,10 +19,11 @@ public:
     ExpressionPair(Expression first, Expression second, EOperator mathOperator);
     ~ExpressionPair();
 public:
-    ExpressionPair solveFor(Variable var);
-    Expression getFirst();
-    Expression getSecond();
-    EOperator getOperator();
+    bool isCompletlySolved(Variable var) const;
+    ExpressionPair solveFor(Variable var) const;
+    Expression getFirst() const;
+    Expression getSecond() const;
+    EOperator getOperator() const;
 private:
-    EOperator getOtherOperator();
+    EOperator getOtherOperator() const;
 };

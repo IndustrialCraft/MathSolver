@@ -9,6 +9,7 @@ public:
     ~Variable();
 public:
     bool operator==(const Variable& other) const;
+    bool operator<(const Variable& other) const;
 public:
     std::string toString() const;
 };

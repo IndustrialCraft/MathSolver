@@ -1,6 +1,9 @@
 #pragma once
+#include <set>
 #include <string>
 #include <vector>
+
+#include "Variable.hpp"
 class Term;
 
 class Expression {
@@ -20,6 +23,8 @@ public:
     Expression operator*(const Expression& other) const;
     // todo Expression operator/(const Expression& other) const;
 public:
+    Expression replaceVariable(Variable variable, Expression expression) const;
+    std::set<Variable> listVariables() const;
     Expression simplify() const;
     std::string toString() const;
     std::vector<Term> getTerms() const;
