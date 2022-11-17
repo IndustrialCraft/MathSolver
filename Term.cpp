@@ -86,7 +86,7 @@ int Term::countOccurences(const Variable& var) const {
     }
     return amt;
 }
-Fraction Term::getAmount() {
+Fraction Term::getAmount() const {
     return this->m_amount;
 }
 bool Term::isSameExceptAmount(const Term& other) const {
@@ -125,8 +125,14 @@ Term Term::addInversiblePart(const InversablePart& part) const {
     newVariables.push_back(part);
     return Term(m_amount, newVariables);
 }
-std::string Term::toString() const {
-    std::string output = m_amount.toString();
+std::string Term::toString(bool ignoreNegativeAmount) const {
+    std::string output;
+    if (m_amount != Fraction(1, 1)) {
+        output += std::to_string(ignoreNegativeAmount ? abs(m_amount.getNumberator()) : m_amount.getNumberator());
+        if (m_amount.getDenominator() != 1) {
+            output += "/" + std::to_string(m_amount.getDenominator());
+        }
+    }
     for (const InversablePart& part : m_parts) {
         if (std::holds_alternative<Variable>(part.m_part))
             output += (part.m_inverse ? "/" : "*") + std::get<Variable>(part.m_part).toString();

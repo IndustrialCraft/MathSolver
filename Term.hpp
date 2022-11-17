@@ -39,9 +39,9 @@ public:
     std::vector<InversablePart> getParts() const;
     int countOccurences(const Variable& var) const;
     Term addInversiblePart(const InversablePart& part) const;
-    Fraction getAmount();
+    Fraction getAmount() const;
     bool isSameExceptAmount(const Term& other) const;
-    std::string toString() const;
+    std::string toString(bool ignoreNegativeAmount) const;
     std::vector<Term> simplify() const;
 private:
     Term crushOppositeSame() const;

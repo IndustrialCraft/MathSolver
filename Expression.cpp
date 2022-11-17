@@ -93,8 +93,12 @@ std::vector<Term> Expression::getTerms() const {
 }
 std::string Expression::toString() const {
     std::string output;
+    bool isFirst = true;
     for (const Term& term1 : this->m_terms) {
-        output += "+" + term1.toString();
+        if ((!isFirst) || term1.getAmount().isNegative())
+            output += term1.getAmount().isNegative() ? "-" : "+";
+        output += term1.toString(false);
+        isFirst = false;
     }
     return output;
 }

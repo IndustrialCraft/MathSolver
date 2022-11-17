@@ -21,6 +21,8 @@ public:
     Fraction operator/(const Fraction& other) const;
     bool operator==(const Fraction& other) const;
 public:
+    long long getNumberator() const;
+    long long getDenominator() const;
     bool isNegative() const;
     bool isZero() const;
     std::string toString() const;

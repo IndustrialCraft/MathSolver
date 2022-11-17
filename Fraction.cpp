@@ -37,7 +37,12 @@ bool Fraction::isNegative() const {
 bool Fraction::isZero() const {
     return this->m_numerator == 0;
 }
-
+long long Fraction::getNumberator() const {
+    return this->m_numerator;
+}
+long long Fraction::getDenominator() const {
+    return this->m_denominator;
+}
 std::string Fraction::toString() const {
     return "(" + std::to_string(m_numerator) + "/" + std::to_string(m_denominator) + ")";
 }
