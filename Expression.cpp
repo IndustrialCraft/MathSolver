@@ -97,7 +97,7 @@ std::string Expression::toString() const {
     for (const Term& term1 : this->m_terms) {
         if ((!isFirst) || term1.getAmount().isNegative())
             output += term1.getAmount().isNegative() ? "-" : "+";
-        output += term1.toString(false);
+        output += term1.toString(true);
         isFirst = false;
     }
     return output;
