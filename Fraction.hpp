@@ -25,5 +25,5 @@ public:
     long long getDenominator() const;
     bool isNegative() const;
     bool isZero() const;
-    std::string toString() const;
+    std::string toString(bool ignoreNegative) const;
 };

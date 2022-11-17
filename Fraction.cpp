@@ -43,6 +43,11 @@ long long Fraction::getNumberator() const {
 long long Fraction::getDenominator() const {
     return this->m_denominator;
 }
-std::string Fraction::toString() const {
-    return "(" + std::to_string(m_numerator) + "/" + std::to_string(m_denominator) + ")";
+std::string Fraction::toString(bool ignoreNegative) const {
+    std::string output;
+    output += std::to_string(ignoreNegative ? abs(m_numerator) : m_numerator);
+    if (m_denominator != 1) {
+        output += "/" + std::to_string(m_denominator);
+    }
+    return output;
 }

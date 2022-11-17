@@ -127,11 +127,8 @@ Term Term::addInversiblePart(const InversablePart& part) const {
 }
 std::string Term::toString(bool ignoreNegativeAmount) const {
     std::string output;
-    if (m_amount != Fraction(1, 1)) {
-        output += std::to_string(ignoreNegativeAmount ? abs(m_amount.getNumberator()) : m_amount.getNumberator());
-        if (m_amount.getDenominator() != 1) {
-            output += "/" + std::to_string(m_amount.getDenominator());
-        }
+    if (!(m_amount == Fraction(1, 1))) {
+        output += m_amount.toString(ignoreNegativeAmount);
     }
     for (const InversablePart& part : m_parts) {
         if (std::holds_alternative<Variable>(part.m_part))
